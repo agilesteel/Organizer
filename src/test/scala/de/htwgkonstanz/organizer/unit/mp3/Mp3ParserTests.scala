@@ -1,13 +1,13 @@
 package de.htwgkonstanz.organizer.unit.mp3
 
 import de.htwgkonstanz.organizer._
-import unit.TestConfiguration
+import unit.UnitTestConfiguration
 import io._
 import song._
 import mp3._
 import FileSystem._
 
-class Mp3ParserTests extends TestConfiguration {
+class Mp3ParserTests extends UnitTestConfiguration {
   test("Song should match id3v2 tag in a perfect scenario") {
     val perfectReader = FakeReader(Mp3Tag(perfectTag, perfectTag))
     performTest(perfectReader, perfectSong)

@@ -2,11 +2,11 @@ package de.htwgkonstanz.organizer.unit.flac
 
 import de.htwgkonstanz.organizer.io.FileSystem._
 import de.htwgkonstanz.organizer._
-import unit.TestConfiguration
+import unit.UnitTestConfiguration
 import song._
 import flac._
 
-class FlacParserTests extends TestConfiguration {
+class FlacParserTests extends UnitTestConfiguration {
   case class FakeReader(tag: SongTag) extends SongReader[SongTag] {
     def read(path: String): SongTag = tag
   }

@@ -2,11 +2,11 @@ package de.htwgkonstanz.organizer.unit.song
 
 import de.htwgkonstanz.organizer.song._
 import de.htwgkonstanz.organizer._
-import unit.TestConfiguration
+import unit.UnitTestConfiguration
 import io._
 import FileSystem._
 
-class SongFileOrganizingStrategyTests extends TestConfiguration {
+class SongFileOrganizingStrategyTests extends UnitTestConfiguration {
   test("Target directory should be set") {
     strategy.targetDirectory should be(targetDirectory)
   }
