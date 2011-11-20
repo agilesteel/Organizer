@@ -25,12 +25,7 @@ class SongOrganizer(val organizingStrategy: SongFile => String) {
       FileSystem.copy(source, target)
   }
 
-  def preview(songFiles: Seq[SongFile]): Map[SongFile, String] = songFiles.map {
-    case songFile: SongFile => songFile -> organizingStrategy(songFile)
-  }.toMap
-
-  def organize(map: Map[SongFile, String]): Unit = {
-    for ((SongFile(_, source), target) <- map)
-      FileSystem.copy(source, target)
-  }
+  def preview(songFiles: Seq[SongFile]): Map[SongFile, String] = songFiles
+    .map { songFile => songFile -> organizingStrategy(songFile) }
+    .toMap
 }
