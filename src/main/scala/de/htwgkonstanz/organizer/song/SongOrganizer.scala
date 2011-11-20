@@ -6,10 +6,9 @@ import mp3._
 import io._
 import FileSystem._
 
-class SongOrganizer {
-  def traverse(sourcePath: String): Seq[String] = FileSystem.traverse(sourcePath)(Extensions.FLAC, Extensions.MP3)
-
-  def parse(songFiles: Seq[String]): Seq[SongFile] = {
+class SongOrganizer(val organizingStrategy: SongFile => String) {
+  def parse(sourcePath: String): Seq[SongFile] = {
+    val songFiles = traverse(sourcePath)
     val mp3Parser = new Mp3Parser(new Mp3Reader)
     val flacParser = new FlacParser(new FlacReader)
 
@@ -19,7 +18,14 @@ class SongOrganizer {
     }
   }
 
-  def preview(songFiles: Seq[SongFile], organizingStrategy: SongFile => String): Map[SongFile, String] = songFiles.map {
+  private def traverse(sourcePath: String): Seq[String] = FileSystem.traverse(sourcePath)(Extensions.FLAC, Extensions.MP3)
+
+  def organize(songFiles: Seq[SongFile]): Unit = {
+    for ((SongFile(_, source), target) <- preview(songFiles))
+      FileSystem.copy(source, target)
+  }
+
+  def preview(songFiles: Seq[SongFile]): Map[SongFile, String] = songFiles.map {
     case songFile: SongFile => songFile -> organizingStrategy(songFile)
   }.toMap
 

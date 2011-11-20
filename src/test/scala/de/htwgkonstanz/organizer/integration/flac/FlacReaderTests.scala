@@ -1,11 +1,11 @@
 package de.htwgkonstanz.organizer.integration.flac
 
 import de.htwgkonstanz.organizer._
-import integration.TestConfiguration
+import integration.IntegrationTestConfiguration
 import flac._
 import song._
 
-class FlacReaderTests extends TestConfiguration {
+class FlacReaderTests extends IntegrationTestConfiguration {
   feature("Flac Reader should read a flac file and produce a flac tag") {
     val path = """src\test\resources\dummy.flac"""
     scenario("read is invoked on " + path) {

@@ -1,11 +1,11 @@
 package de.htwgkonstanz.organizer.integration.mp3
 
 import de.htwgkonstanz.organizer._
-import integration.TestConfiguration
+import integration.IntegrationTestConfiguration
 import mp3._
 import song._
 
-class Mp3ReaderTests extends TestConfiguration {
+class Mp3ReaderTests extends IntegrationTestConfiguration {
   feature("Mp3 Reader should read an mp3 file and produce mp3 tags") {
     scenario("read is invoked on Hells Bells from AC/DC") {
       given("an mp3 reader")

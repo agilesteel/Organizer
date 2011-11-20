@@ -3,9 +3,9 @@ package de.htwgkonstanz.organizer.unit.io
 import de.htwgkonstanz.organizer.io._
 import de.htwgkonstanz.organizer.io.FileSystem._
 import de.htwgkonstanz.organizer._
-import unit.TestConfiguration
+import unit.UnitTestConfiguration
 
-class FileSystemTests extends TestConfiguration {
+class FileSystemTests extends UnitTestConfiguration {
   test("Perfect file path should be recognized") {
     val filePath = "location" + separator + "name.extension"
     assertDefaults(filePath)

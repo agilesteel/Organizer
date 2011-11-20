@@ -6,7 +6,7 @@ import de.htwgkonstanz.organizer._
 import FileSystem._
 import TestFiles._
 
-class FileSystemTests extends TestConfiguration {
+class FileSystemTests extends IntegrationTestConfiguration {
   feature("FileSystem should be aware of file existence") {
     scenario("exists is invoked on an existent file") {
       when("exists is invoked on " + thisFile)
@@ -49,6 +49,18 @@ class FileSystemTests extends TestConfiguration {
         system.delete(target)
         system.delete(targetLocation)
       }
+    }
+  }
+
+  feature("Traversing a directory") {
+    scenario("traverse is invoked on an existent source directory") {
+      when("""traverse is invoked on src\test\resources""")
+      val path = """src\test\resources"""
+      val actualFiles = system.traverse(path)(Extensions.MP3, Extensions.FLAC)
+
+      then("the result should be a list of files containing" + prettyPrint(files))
+      val expectedFiles = files
+      actualFiles === expectedFiles
     }
   }
 

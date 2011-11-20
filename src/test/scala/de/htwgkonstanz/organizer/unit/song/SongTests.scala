@@ -1,10 +1,10 @@
 package de.htwgkonstanz.organizer.unit.song
 
 import de.htwgkonstanz.organizer._
-import unit.TestConfiguration
+import unit.UnitTestConfiguration
 import de.htwgkonstanz.organizer.song._
 
-class SongTests extends TestConfiguration {
+class SongTests extends UnitTestConfiguration {
   test("All song members should be initially set to None") {
     val song = Song()
     import song._
