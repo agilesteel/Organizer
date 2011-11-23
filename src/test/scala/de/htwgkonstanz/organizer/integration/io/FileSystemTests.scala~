@@ -55,7 +55,7 @@ class FileSystemTests extends IntegrationTestConfiguration {
   feature("Traversing a directory") {
     scenario("traverse is invoked on an existent source directory") {
       when("""traverse is invoked on src\test\resources""")
-      val path = """src/test/resources"""
+      val path = """src\test\resources"""
       val actualFiles = system.traverse(path)(Extensions.MP3, Extensions.FLAC)
 
       then("the result should be a list of files containing" + prettyPrint(files))

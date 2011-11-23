@@ -12,7 +12,7 @@ class Mp3ReaderTests extends IntegrationTestConfiguration {
       val reader = new Mp3Reader
       
       when("read is invoked on the reader")
-      val path = """src/test/resources/01 - AC-DC-Hells Bells.mp3"""
+      val path = """src\test\resources\01 - AC-DC-Hells Bells.mp3"""
       val actualTag = reader.read(path)
 
       then("tags should equal expected tags")

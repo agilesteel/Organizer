@@ -12,7 +12,7 @@ class SongOrganizerTests extends AcceptanceTestConfiguration {
     "transforming each of them into a data structure " +
     "containing the path of a file with according song information") {
     scenario("parse is invoked on a list of flac/mp3 files") {
-      val path = """src/test/resources"""
+      val path = """src\test\resources"""
       when("parse is invoked on " + path)
       val actualSongFiles = organizer.parse(path)
 
