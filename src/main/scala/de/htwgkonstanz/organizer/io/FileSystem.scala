@@ -58,4 +58,6 @@ object FileSystem {
       Files.createDirectories(Paths.get(targetLocation))
     Files.copy(Paths.get(source), Paths.get(target), StandardCopyOption.REPLACE_EXISTING)
   }
+  
+  val desktop = System.getProperty("user.home") + "/Desktop"
 }
