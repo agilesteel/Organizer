@@ -1,4 +1,5 @@
-package de.htwgkonstanz.organizer.unit
+package de.htwgkonstanz.organizer.unit
+
 import org.scalatest._
 import org.scalatest.matchers._
 
