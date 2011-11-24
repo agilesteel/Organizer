@@ -8,7 +8,7 @@ import FileSystem._
 import SongOrganizer._
 
 object SongOrganizer {
-  object DirectoryNotFound extends Exception
+  object DirectoryNotFound extends Exception("Directory not found")
 }
 
 class SongOrganizer(val organizingStrategy: SongFile => String) {
@@ -30,12 +30,12 @@ class SongOrganizer(val organizingStrategy: SongFile => String) {
 
   private def traverse(sourcePath: String): Seq[String] = FileSystem.traverse(sourcePath)(Extensions.FLAC, Extensions.MP3)
 
-  def preview(sourcePath: String): Map[SongFile, String] = parse(sourcePath)
-    .map { songFile => songFile -> organizingStrategy(songFile) }
+  def preview(sourcePath: String): Map[String, String] = parse(sourcePath)
+    .map { songFile => songFile.filePath -> organizingStrategy(songFile) }
     .toMap
 
   def organize(sourcePath: String): Unit = {
-    for ((SongFile(_, source), target) <- preview(sourcePath))
+    for ((source, target) <- preview(sourcePath))
       copy(source, target)
   }
 }

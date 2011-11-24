@@ -54,8 +54,10 @@ class OrganizerView(var controller: Controller) {
       "q  | quit\t\tClose the program",
       "e  | exit\t\tClose the program")
 
-    if (controller.areControllsEnabled) beginning ::: controlls ::: ending
-    else beginning ::: ending
+    if (controller.areControllsEnabled)
+      beginning ::: controlls ::: ending
+    else
+      beginning ::: ending
   }
 
   private def presentList(list: scala.collection.GenTraversable[_])(implicit color: String) {
@@ -74,24 +76,24 @@ class OrganizerView(var controller: Controller) {
     case "parse" | "pa" => {
       if (controller.areControllsEnabled) {
         present("Look what I've found")
-        presentList(controller.parse)
+        controller.parse.fold(presentError, presentList)
       } else
-        present("I beg your pardon?")(RED)
+        presentWrongInputError()
       controller
     }
     case "preview" | "p" =>
       if (controller.areControllsEnabled) {
         present("This is how your new directory structure will look like:")
-        presentList(controller.preview)
+        controller.preview.fold(presentError, presentList)
       } else
-        present("I beg your pardon?")(RED)
+        presentWrongInputError()
       controller
     case "organize" | "o" => {
       if (controller.areControllsEnabled) {
         present("This can take a while. You might wanna grab a snack...")
-        controller.organize()
+        controller.organize.fold(presentError, Unit => ())
       } else
-        present("I beg your pardon?")(RED)
+        presentWrongInputError()
       controller
     }
     case "start over" | "so" => controller.startOver
@@ -100,8 +102,17 @@ class OrganizerView(var controller: Controller) {
       controller
     }
     case unknownCommand => {
-      present("I beg your pardon?")(RED)
+      presentWrongInputError()
       controller
     }
   }
+
+  private def presentWrongInputError() {
+    presentError("I beg your pardon?")
+  }
+
+  private def presentError(error: String) {
+    present(error)(RED)
+  }
 }
+

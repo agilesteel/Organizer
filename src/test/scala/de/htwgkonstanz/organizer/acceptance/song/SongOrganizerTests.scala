@@ -17,7 +17,7 @@ class SongOrganizerTests extends AcceptanceTestConfiguration {
 
       then("the result should be a list of song files containing" + prettyPrint(songFiles map { _.song }))
       val expectedSongFiles = songFiles
-      actualSongFiles === expectedSongFiles
+      actualSongFiles.toSet should be === expectedSongFiles.toSet
     }
 
     scenario("parse is invoked on non-existent path") {
@@ -35,7 +35,7 @@ class SongOrganizerTests extends AcceptanceTestConfiguration {
 
       then("the result should be a map from song files to paths containing" + prettyPrint(map.values))
       val expectedMap = map
-      actualMap === expectedMap
+      actualMap should be === expectedMap
     }
 
     scenario("preview is invoked on non-existent path") {
@@ -84,7 +84,7 @@ class SongOrganizerTests extends AcceptanceTestConfiguration {
     val File(_, _, extension) = songFile.filePath
     File(targetDirectoryParts, songFile.song.title.get, extension)
   }
-  private val map = songFiles map { songFile => (songFile, strategy(songFile)) } toMap
+  private val map = songFiles map { songFile => (songFile.filePath, strategy(songFile)) } toMap
   private val fileSystem = FileSystem
   private val organizer = new SongOrganizer(strategy)
 }

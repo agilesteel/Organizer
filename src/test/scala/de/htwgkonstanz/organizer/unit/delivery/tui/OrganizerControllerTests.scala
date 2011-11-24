@@ -1,13 +1,15 @@
 package de.htwgkonstanz.organizer.unit.delivery.tui
 
-import de.htwgkonstanz.organizer.unit._
-import de.htwgkonstanz.organizer.delivery.tui._
-import de.htwgkonstanz.organizer.song.SongFile
+import de.htwgkonstanz._
+import organizer.unit._
+import organizer.song._
+import organizer.delivery.tui._
+import organizer.TestFiles._
 
 class OrganizerControllerTests extends UnitTestConfiguration {
   class FakeModel extends Model {
     def parse(source: String, target: String): Seq[SongFile] = Seq[SongFile]()
-    def preview(source: String, target: String) = Map[SongFile, String]()
+    def preview(source: String, target: String) = Map[String, String]()
     def organize(source: String, target: String): Unit = {}
   }
 
@@ -33,7 +35,7 @@ class OrganizerControllerTests extends UnitTestConfiguration {
 
   test("Default target should be Desktop/Organized") {
     import de.htwgkonstanz.organizer.io._
-    controller.target should be(FileSystem.desktop + "/Organizer")
+    controller.target should be(FileSystem.desktop + "/Organized Files")
   }
 
   test("SetTarget should be applied functionally") {
@@ -54,4 +56,35 @@ class OrganizerControllerTests extends UnitTestConfiguration {
   test("Refresh should yield an empty controller") {
     controllerWithSource.startOver.status should be === (new OrganizerController(model).status)
   }
+
+  test("""Parse should yield Left("Directory not found")""") {
+    val controller = new OrganizerController(new OrganizerModel)
+    controller.parse match {
+      case Left(error) => error should be("Directory not found")
+    }
+  }
+
+  test("""Parse should yield Right()""") {
+    val controller = new OrganizerController(new OrganizerModel).setSource(path)
+    controller.parse match {
+      case Right(songs) => {
+        songs.toSet should be === (songFiles map { _.toString } toSet)
+      }
+    }
+  }
+
+  test("""Preview should yield Left("Directory not found")""") {
+    val controller = new OrganizerController(new OrganizerModel)
+    controller.preview match {
+      case Left(error) => error should be("Directory not found")
+    }
+  }
+
+  test("""Organize should yield Left("Directory not found")""") {
+    val controller = new OrganizerController(new OrganizerModel)
+    controller.organize match {
+      case Left(error) => error should be("Directory not found")
+    }
+  }
+
 }
