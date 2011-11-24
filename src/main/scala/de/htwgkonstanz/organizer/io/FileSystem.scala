@@ -31,7 +31,6 @@ object FileSystem {
 
   def exists(filePath: String): Boolean = new java.io.File(filePath).exists
 
-  // test if path exists
   def traverse(path: String)(implicit extensions: String*): List[String] = {
     def getFiles(directory: java.io.File): List[java.io.File] = {
       directory.setReadOnly()
@@ -59,5 +58,5 @@ object FileSystem {
     Files.copy(Paths.get(source), Paths.get(target), StandardCopyOption.REPLACE_EXISTING)
   }
   
-  val desktop = System.getProperty("user.home") + "/Desktop"
+  val desktop = System.getProperty("user.home").replace("""\""", "/") + "/Desktop"
 }

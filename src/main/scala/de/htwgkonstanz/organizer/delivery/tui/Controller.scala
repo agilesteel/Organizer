@@ -1,7 +1,6 @@
 package de.htwgkonstanz.organizer.delivery.tui
 
 abstract class Controller {
-  def menu: Seq[String]
   def status: Seq[String]
   def startOver: Controller
   def setSource(path: String): Controller
