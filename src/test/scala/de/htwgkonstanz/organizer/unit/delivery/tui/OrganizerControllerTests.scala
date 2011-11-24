@@ -2,9 +2,14 @@ package de.htwgkonstanz.organizer.unit.delivery.tui
 
 import de.htwgkonstanz.organizer.unit._
 import de.htwgkonstanz.organizer.delivery.tui._
+import de.htwgkonstanz.organizer.song.SongFile
 
 class OrganizerControllerTests extends UnitTestConfiguration {
-  class FakeModel extends Model
+  class FakeModel extends Model {
+    def parse(source: String, target: String): Seq[SongFile] = Seq[SongFile]()
+    def preview(source: String, target: String) = Map[SongFile, String]()
+    def organize(source: String, target: String): Unit = {}
+  }
 
   val model = new FakeModel
   val controller = new OrganizerController(model)

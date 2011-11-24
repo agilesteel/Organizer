@@ -5,9 +5,15 @@ import flac._
 import mp3._
 import io._
 import FileSystem._
+import SongOrganizer._
+
+object SongOrganizer {
+  object DirectoryNotFound extends Exception
+}
 
 class SongOrganizer(val organizingStrategy: SongFile => String) {
   def parse(sourcePath: String): Seq[SongFile] = {
+    throwIfSourcePathDoesNotExist(sourcePath)
     val songFiles = traverse(sourcePath)
     val mp3Parser = new Mp3Parser(new Mp3Reader)
     val flacParser = new FlacParser(new FlacReader)
@@ -18,14 +24,18 @@ class SongOrganizer(val organizingStrategy: SongFile => String) {
     }
   }
 
-  private def traverse(sourcePath: String): Seq[String] = FileSystem.traverse(sourcePath)(Extensions.FLAC, Extensions.MP3)
-
-  def organize(songFiles: Seq[SongFile]): Unit = {
-    for ((SongFile(_, source), target) <- preview(songFiles))
-      FileSystem.copy(source, target)
+  private def throwIfSourcePathDoesNotExist(sourcePath: String) {
+    if (!exists(sourcePath)) throw DirectoryNotFound
   }
 
-  def preview(songFiles: Seq[SongFile]): Map[SongFile, String] = songFiles
+  private def traverse(sourcePath: String): Seq[String] = FileSystem.traverse(sourcePath)(Extensions.FLAC, Extensions.MP3)
+
+  def preview(sourcePath: String): Map[SongFile, String] = parse(sourcePath)
     .map { songFile => songFile -> organizingStrategy(songFile) }
     .toMap
+
+  def organize(sourcePath: String): Unit = {
+    for ((SongFile(_, source), target) <- preview(sourcePath))
+      copy(source, target)
+  }
 }

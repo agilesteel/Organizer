@@ -6,6 +6,8 @@ import io._
 import FileSystem._
 
 object TestFiles {
+  val path = """src/test/resources"""
+    
   val childParts = List("src", "test", "resources", "child")
   val locationParts = childParts.dropRight(1)
   val dummyName = "dummy"

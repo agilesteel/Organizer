@@ -12,7 +12,6 @@ class SongOrganizerTests extends AcceptanceTestConfiguration {
     "transforming each of them into a data structure " +
     "containing the path of a file with according song information") {
     scenario("parse is invoked on a list of flac/mp3 files") {
-      val path = """src/test/resources"""
       when("parse is invoked on " + path)
       val actualSongFiles = organizer.parse(path)
 
@@ -20,16 +19,30 @@ class SongOrganizerTests extends AcceptanceTestConfiguration {
       val expectedSongFiles = songFiles
       actualSongFiles === expectedSongFiles
     }
+
+    scenario("parse is invoked on non-existent path") {
+      val path = "non-existent location"
+      when("parse is invoked on " + path)
+      then("an exception should be produced")
+      evaluating { val actualSongFiles = organizer.parse(path) } should produce[SongOrganizer.DirectoryNotFound.type]
+    }
   }
 
   feature("User should be able to preview his new directory structure") {
     scenario("preview is invoked on a list of song files using a simple organizing strategy") {
-      when("preview is invoked on:" + prettyPrint(songFiles))
-      val actualMap = organizer.preview(songFiles)
+      when("preview is invoked on:" + path)
+      val actualMap = organizer.preview(path)
 
       then("the result should be a map from song files to paths containing" + prettyPrint(map.values))
       val expectedMap = map
       actualMap === expectedMap
+    }
+
+    scenario("preview is invoked on non-existent path") {
+      val path = "non-existent location"
+      when("preview is invoked on " + path)
+      then("an exception should be produced")
+      evaluating { val actualSongFiles = organizer.preview(path) } should produce[SongOrganizer.DirectoryNotFound.type]
     }
   }
 
@@ -45,7 +58,7 @@ class SongOrganizerTests extends AcceptanceTestConfiguration {
 
       def toCopy {
         when("organize is invoked on:" + prettyPrint(map.values))
-        organizer.organize(songFiles)
+        organizer.organize(path)
 
         then(files + " should be copied into " + targetDirectory)
         tempSongFiles forall fileSystem.exists should be(true)
@@ -55,6 +68,13 @@ class SongOrganizerTests extends AcceptanceTestConfiguration {
         tempSongFiles foreach fileSystem.delete
         fileSystem.delete(targetDirectory)
       }
+    }
+
+    scenario("organize is invoked on non-existent path") {
+      val path = "non-existent location"
+      when("organize is invoked on " + path)
+      then("an exception should be produced")
+      evaluating { val actualSongFiles = organizer.organize(path) } should produce[SongOrganizer.DirectoryNotFound.type]
     }
   }
 
