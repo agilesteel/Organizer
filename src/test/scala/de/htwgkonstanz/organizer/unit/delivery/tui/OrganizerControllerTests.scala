@@ -64,7 +64,7 @@ class OrganizerControllerTests extends UnitTestConfiguration {
     }
   }
 
-  ignore("""Parse should yield Right()""") {
+  test("""Parse should yield Right()""") {
     val controller = new OrganizerController(new OrganizerModel).setSource(path)
     controller.parse match {
       case Right(songs) => {

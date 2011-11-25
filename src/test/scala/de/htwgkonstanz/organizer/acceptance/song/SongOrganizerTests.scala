@@ -51,7 +51,7 @@ class SongOrganizerTests extends AcceptanceTestConfiguration {
     scenario("organize is invoked on a list of flac/mp3 files") {
       def file(name: String) = File(targetDirectoryParts, name, Extensions.MP3)
       val flac = File(targetDirectory, "Title", Extensions.FLAC)
-      val tempSongFiles = List(flac, file("(1997) -----"), file("Hells Bells"), file("I Want It All"))
+      val tempSongFiles = List(flac, file("(1997) -----"), file("Hells Bells"), file("I Want It All"), file(""))
 
       try toCopy
       finally cleanUp
@@ -82,7 +82,7 @@ class SongOrganizerTests extends AcceptanceTestConfiguration {
   private val targetDirectory = targetDirectoryParts mkString separator
   private val strategy = (songFile: SongFile) => {
     val File(_, _, extension) = songFile.filePath
-    File(targetDirectoryParts, songFile.song.title.get, extension)
+    File(targetDirectoryParts, songFile.song.title.getOrElse(""), extension)
   }
   private val map = songFiles map { songFile => (songFile.filePath, strategy(songFile)) } toMap
   private val fileSystem = FileSystem
