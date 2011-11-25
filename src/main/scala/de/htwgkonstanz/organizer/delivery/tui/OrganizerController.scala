@@ -12,7 +12,6 @@ class OrganizerController private (val model: Model, val source: String, val tar
     "Source: " + source,
     "Target: " + target)
 
-  def startOver: OrganizerController = new OrganizerController(model)
   def setSource(source: String): OrganizerController = new OrganizerController(model, source, target)
   def setTarget(target: String): OrganizerController = new OrganizerController(model, source, target)
 
