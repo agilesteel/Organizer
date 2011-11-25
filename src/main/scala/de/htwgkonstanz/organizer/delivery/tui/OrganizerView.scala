@@ -14,11 +14,11 @@ class OrganizerView(var controller: Controller) {
   }
 
   private def presentGreeting() {
-    present("Welcome to song organizer!")(YELLOW)
-    present("Hold on a sec, I am initializing the neccessary components...")(YELLOW)
+    presentLine("Welcome to song organizer!")(YELLOW)
+    presentLine("Hold on a sec, I am initializing the neccessary components...")(YELLOW)
   }
 
-  private def present(x: Any = "")(implicit color: String) {
+  private def presentLine(x: Any = "")(implicit color: String) {
     println(color + x + RESET + "\n")
   }
 
@@ -60,21 +60,32 @@ class OrganizerView(var controller: Controller) {
   }
 
   private def presentList(list: scala.collection.GenTraversable[_])(implicit color: String) {
-    present(list mkString "\n")(color)
+    presentLine(list mkString "\n")(color)
+  }
+
+  private def presentMap(map: scala.collection.GenMap[_, _])(implicit color: String) {
+    for ((from, to) <- map) {
+      presentSingleLine(from)(defaultColor)
+      presentLine(to)(color)
+    }
+  }
+
+  private def presentSingleLine(x: Any = "")(implicit color: String) {
+    println(color + x + RESET)
   }
 
   private def waitForInput() = readLine match {
     case "source" | "s" => {
-      present("In which directory are your unorganized songs?")
+      presentLine("In which directory are your unorganized songs?")
       controller.setSource(readLine)
     }
     case "target" | "t" => {
-      present("Where should I organize your songs to?")
+      presentLine("Where should I organize your songs to?")
       controller.setTarget(readLine)
     }
     case "parse" | "pa" => {
       if (controller.areControllsEnabled) {
-        present("Look what I've found")
+        presentLine("Look what I've found")
         controller.parse.fold(presentError, presentList)
       } else
         presentWrongInputError()
@@ -82,14 +93,14 @@ class OrganizerView(var controller: Controller) {
     }
     case "preview" | "p" =>
       if (controller.areControllsEnabled) {
-        present("This is how your new directory structure will look like:")
-        controller.preview.fold(presentError, presentList)
+        presentLine("This is how your new directory structure will look like:")
+        controller.preview.fold(presentError, x => presentMap(x)(YELLOW))
       } else
         presentWrongInputError()
       controller
     case "organize" | "o" => {
       if (controller.areControllsEnabled) {
-        present("This can take a while. You might wanna grab a snack...")
+        presentLine("This can take a while. You might wanna grab a snack...")
         controller.organize.fold(presentError, Unit => ())
       } else
         presentWrongInputError()
@@ -110,7 +121,7 @@ class OrganizerView(var controller: Controller) {
   }
 
   private def presentError(error: String) {
-    present(error)(RED)
+    presentLine(error)(RED)
   }
 }
 
