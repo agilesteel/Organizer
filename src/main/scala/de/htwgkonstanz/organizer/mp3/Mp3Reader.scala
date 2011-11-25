@@ -17,12 +17,16 @@ class Mp3Reader extends SongReader[Mp3Tag] {
     Mp3Tag(tag(id3v1), tag(id3v2))
   }
 
-  private def tag(tag: TaggerTag) = SongTag(
-    tag.getFirst(TITLE),
-    tag.getFirst(ARTIST),
-    tag.getFirst(ALBUM),
-    tag.getFirst(YEAR),
-    retrieveTrackFrom(tag))
+  private def tag(tag: TaggerTag) =
+    if (tag == null)
+      SongTag()
+    else
+      SongTag(
+        tag.getFirst(TITLE),
+        tag.getFirst(ARTIST),
+        tag.getFirst(ALBUM),
+        tag.getFirst(YEAR),
+        retrieveTrackFrom(tag))
 
   private def retrieveTrackFrom(tag: TaggerTag) = try tag.getFirst(TRACK) catch { case _ => "" }
 }
