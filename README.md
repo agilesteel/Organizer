@@ -3,22 +3,22 @@
 
 # Organizer 1.0
 
-This tool organizes the files on your system.
+This tool organizes the files on your system. 
 
-## Currently supported files
+###Currently supported files:
 
 * mp3
 * flac
 
-# Setup
+## Setup
 
-## Requirements 
+### Requirements 
 
 * [Java 7]
 * [SBT]
 * Internet connection (in order for [SBT] to be able to download the necessary dependencies).
 
-## Build
+### Build
 
 1. Get the source code.
 
