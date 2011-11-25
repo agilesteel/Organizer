@@ -32,22 +32,22 @@ object FileSystem {
   def exists(filePath: String): Boolean = new java.io.File(filePath).exists
 
   def traverse(path: String)(implicit extensions: String*): List[String] = {
-    def getFiles(directory: java.io.File): List[java.io.File] = {
-      directory.setReadOnly()
-      val artifacts = directory.listFiles.toList
-      val (directories, currentFiles) = artifacts partition { _.isDirectory }
-      val childrensFiles = directories flatMap getFiles
-      currentFiles ::: childrensFiles
-    }
-
-    val folder = new java.io.File(path)
-    val files = getFiles(folder)
-    val filteredFiles = filterExtensions(files, extensions)
-    filteredFiles map { _.toString }
+    val visitor = new FileVisitor(path, extensions)
+    Files.walkFileTree(Paths.get(path), visitor)
+    visitor.paths
   }
-  
-  private def filterExtensions(files: List[java.io.File], extensions: Seq[String]) =
-    files filter { file => extensions exists { extension => file.toString.endsWith(extension) } }
+
+  private class FileVisitor(path: String, extensions: Seq[String]) extends SimpleFileVisitor[Path] {
+    var paths = List[String]()
+    override def visitFileFailed(file: Path, exc: java.io.IOException): FileVisitResult = FileVisitResult.CONTINUE
+    override def visitFile(filePath: Path, attrs: attribute.BasicFileAttributes) = {
+      filePath.toString match {
+        case fileString @ File(_, _, extension) if extensions.contains(extension) => paths ::= fileString
+        case _ =>
+      }
+      FileVisitResult.CONTINUE
+    }
+  }
 
   def delete(filePath: String): Unit = new java.io.File(filePath).delete()
 
@@ -57,6 +57,6 @@ object FileSystem {
       Files.createDirectories(Paths.get(targetLocation))
     Files.copy(Paths.get(source), Paths.get(target), StandardCopyOption.REPLACE_EXISTING)
   }
-  
+
   val desktop = System.getProperty("user.home").replace("""\""", "/") + "/Desktop"
 }

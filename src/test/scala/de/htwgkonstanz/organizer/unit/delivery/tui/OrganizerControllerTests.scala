@@ -53,10 +53,6 @@ class OrganizerControllerTests extends UnitTestConfiguration {
       "Target: " + controllerWithSource.target)
   }
 
-  test("Refresh should yield an empty controller") {
-    controllerWithSource.startOver.status should be === (new OrganizerController(model).status)
-  }
-
   test("""Parse should yield Left("Directory not found")""") {
     val controller = new OrganizerController(new OrganizerModel)
     controller.parse match {

@@ -50,7 +50,6 @@ class OrganizerView(var controller: Controller) {
       "o  | organize\t\tCopy files from the source directory into the target directory")
 
     val ending = List(
-      "so | start over\t\tClear source and target directories",
       "q  | quit\t\tClose the program",
       "e  | exit\t\tClose the program")
 
@@ -96,7 +95,6 @@ class OrganizerView(var controller: Controller) {
         presentWrongInputError()
       controller
     }
-    case "start over" | "so" => controller.startOver
     case "quit" | "q" | "exit" | "e" => {
       System.exit(0)
       controller
