@@ -9,7 +9,8 @@ resolvers ++= Seq(
 libraryDependencies ++= Seq(
 	"org.scalatest" %% "scalatest" % "latest.release" % "test",
 	"org.jaudiotagger" % "jaudiotagger" % "latest.release" % "compile",
-	"org.scalaz" %% "scalaz-core" % "latest.release"
+	"org.scalaz" %% "scalaz-core" % "latest.release",
+	"org.scala-lang" % "scala-swing" % "2.9.1"
 )
 
 scalacOptions ++= Seq(
