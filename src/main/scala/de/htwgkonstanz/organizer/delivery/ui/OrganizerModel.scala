@@ -1,4 +1,4 @@
-package de.htwgkonstanz.organizer.delivery.tui
+package de.htwgkonstanz.organizer.delivery.ui
 
 import de.htwgkonstanz.organizer.song._
 

@@ -1,4 +1,4 @@
-package de.htwgkonstanz.organizer.delivery.tui
+package de.htwgkonstanz.organizer.delivery.ui
 
 import de.htwgkonstanz.organizer.song.SongFile
 import Controller._
@@ -13,8 +13,6 @@ abstract class Controller {
 
   def setSource(path: String): Controller
   def setTarget(path: String): Controller
-
-  def status: Seq[String]
 
   def areControllsDisabled: Boolean = !areControllsEnabled
   def areControllsEnabled: Boolean = isSourceSet

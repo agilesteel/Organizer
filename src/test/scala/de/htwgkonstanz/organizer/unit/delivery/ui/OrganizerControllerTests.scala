@@ -1,10 +1,11 @@
-package de.htwgkonstanz.organizer.unit.delivery.tui
+package de.htwgkonstanz.organizer.unit.delivery.ui
 
 import de.htwgkonstanz._
 import organizer.unit._
 import organizer.song._
 import organizer.delivery.tui._
 import organizer.TestFiles._
+import de.htwgkonstanz.organizer.delivery.ui._
 
 class OrganizerControllerTests extends UnitTestConfiguration {
   class FakeModel extends Model {
@@ -42,12 +43,6 @@ class OrganizerControllerTests extends UnitTestConfiguration {
 
   test("SetSource should be applied functionally") {
     controllerWithSource.source should be("source")
-  }
-
-  test("Status should depend on source and target") {
-    controllerWithSource.status should be === List(
-      "Source: " + controllerWithSource.source,
-      "Target: " + controllerWithSource.target)
   }
 
   test("""Parse should yield Left("Directory not found")""") {

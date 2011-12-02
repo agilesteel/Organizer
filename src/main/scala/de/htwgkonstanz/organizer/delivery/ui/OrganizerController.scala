@@ -1,4 +1,4 @@
-package de.htwgkonstanz.organizer.delivery.tui
+package de.htwgkonstanz.organizer.delivery.ui
 
 import de.htwgkonstanz.organizer.io.FileSystem._
 import de.htwgkonstanz.organizer.song.SongFile
@@ -7,15 +7,11 @@ class OrganizerController private (val model: Model, val source: String, val tar
   def this(model: Model) = this(model, "", desktop + "/Organized Files")
   def isSourceSet = !source.isEmpty
 
-  def status = List(
-    "Source: " + source,
-    "Target: " + target)
-
   def setSource(source: String): OrganizerController = new OrganizerController(model, source, target)
   def setTarget(target: String): OrganizerController = new OrganizerController(model, source, target)
 
   protected def tryParse = tryCallingErrorGeneratingRoutine {
-    model.parse(source, target) map { _.toString }
+    model.parse(source, target) map { _.toString } sortWith { _ < _}
   }
 
   protected def tryPreview = tryCallingErrorGeneratingRoutine {
