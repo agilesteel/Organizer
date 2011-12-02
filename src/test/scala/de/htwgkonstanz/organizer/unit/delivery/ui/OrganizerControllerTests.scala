@@ -1,10 +1,11 @@
-package de.htwgkonstanz.organizer.unit.delivery.tui
+package de.htwgkonstanz.organizer.unit.delivery.ui
 
 import de.htwgkonstanz._
 import organizer.unit._
 import organizer.song._
 import organizer.delivery.tui._
 import organizer.TestFiles._
+import de.htwgkonstanz.organizer.delivery.ui._
 
 class OrganizerControllerTests extends UnitTestConfiguration {
   class FakeModel extends Model {
@@ -14,11 +15,17 @@ class OrganizerControllerTests extends UnitTestConfiguration {
   }
 
   val model = new FakeModel
-  val controller = new OrganizerController(model)
+  val controller: Controller = new OrganizerController(model)
   val controllerWithSource = controller.setSource("source")
+  val controllerWithoutSourceButWithRealModel = new OrganizerController(new OrganizerModel).setSource("non-existent source")
 
-  test("isSourceSet should be set to false at the befinning") {
-    controller.isSourceSet should not be (true)
+  test("Controller should have source and target") {
+    controller should have(
+      'source(""),
+      'target(de.htwgkonstanz.organizer.io.FileSystem.desktop + "/Organized Files"),
+      'isSourceSet(false),
+      'areControllsEnabled(controller.isSourceSet),
+      'areControllsDisabled(!controller.areControllsEnabled))
   }
 
   test("All controlls should be enabled if source is set") {
@@ -27,15 +34,6 @@ class OrganizerControllerTests extends UnitTestConfiguration {
 
   test("SetSource should trigger isSourceSet") {
     controllerWithSource.isSourceSet should be(true)
-  }
-
-  test("Default source should be empty") {
-    controller.source should be('empty)
-  }
-
-  test("Default target should be Desktop/Organized") {
-    import de.htwgkonstanz.organizer.io._
-    controller.target should be(FileSystem.desktop + "/Organized Files")
   }
 
   test("SetTarget should be applied functionally") {
@@ -47,15 +45,8 @@ class OrganizerControllerTests extends UnitTestConfiguration {
     controllerWithSource.source should be("source")
   }
 
-  test("Status should depend on source and target") {
-    controllerWithSource.status should be === List(
-      "Source: " + controllerWithSource.source,
-      "Target: " + controllerWithSource.target)
-  }
-
   test("""Parse should yield Left("Directory not found")""") {
-    val controller = new OrganizerController(new OrganizerModel)
-    controller.parse match {
+    controllerWithoutSourceButWithRealModel.parse match {
       case Left(error) => error should be("Directory not found")
     }
   }
@@ -70,17 +61,35 @@ class OrganizerControllerTests extends UnitTestConfiguration {
   }
 
   test("""Preview should yield Left("Directory not found")""") {
-    val controller = new OrganizerController(new OrganizerModel)
-    controller.preview match {
+    controllerWithoutSourceButWithRealModel.preview match {
       case Left(error) => error should be("Directory not found")
     }
   }
 
   test("""Organize should yield Left("Directory not found")""") {
-    val controller = new OrganizerController(new OrganizerModel)
-    controller.organize match {
+    controllerWithoutSourceButWithRealModel.organize match {
       case Left(error) => error should be("Directory not found")
     }
+  }
+
+  testLeftIfControllsAreDisabled("Parse") {
+    controller.parse
+  }
+
+  private def testLeftIfControllsAreDisabled(operationName: String)(eitherOperation: => Either[String, _]) {
+    test(operationName + """ should yield Left("Please tell me where your song are")""") {
+      eitherOperation match {
+        case Left(error) => error should be("Please tell me where your song are")
+      }
+    }
+  }
+
+  testLeftIfControllsAreDisabled("Preview") {
+    controller.preview
+  }
+
+  testLeftIfControllsAreDisabled("Organize") {
+    controller.organize
   }
 
 }

@@ -1,4 +1,6 @@
-package de.htwgkonstanz.organizer.delivery.tui
+package de.htwgkonstanz.organizer.delivery.ui.textual
+
+import de.htwgkonstanz.organizer.delivery.ui._
 
 object TUI extends App {
   val model = new OrganizerModel

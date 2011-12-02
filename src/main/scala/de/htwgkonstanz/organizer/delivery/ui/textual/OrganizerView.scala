@@ -1,7 +1,8 @@
-package de.htwgkonstanz.organizer.delivery.tui
+package de.htwgkonstanz.organizer.delivery.ui.textual
 
 import Console._
 import OrganizerView._
+import de.htwgkonstanz.organizer.delivery.ui.Controller
 
 object OrganizerView {
   implicit val defaultColor = RESET
@@ -31,7 +32,8 @@ class OrganizerView(var controller: Controller) {
   }
 
   private def presentStatus() {
-    presentList(controller.status)(GREEN)
+    presentSingleLine("Source: " + controller.source)(GREEN)
+    presentLine("Target: " + controller.target)(GREEN)
   }
 
   private def presentMenu() {
