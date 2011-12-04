@@ -3,7 +3,6 @@ package de.htwgkonstanz.organizer.unit.delivery.ui
 import de.htwgkonstanz._
 import organizer.unit._
 import organizer.song._
-import organizer.delivery.tui._
 import organizer.TestFiles._
 import de.htwgkonstanz.organizer.delivery.ui._
 
