@@ -29,8 +29,13 @@ This tool organizes the files on your system.
 
 		$ sbt
 
-3. Compile/Test/Run:
+3. Compile/Test/Run*:
 
 		$ compile
 		$ test
 		$ run
+
+\* Don't forget to start/stop jetty if you want to run the web version.
+
+	$ container:start
+	$ container:stop
