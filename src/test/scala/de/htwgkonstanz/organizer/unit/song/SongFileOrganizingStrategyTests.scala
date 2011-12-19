@@ -110,6 +110,11 @@ class SongFileOrganizingStrategyTests extends UnitTestConfiguration {
     actualMp3FileInfo should be(expectedMp3FileInfo)
   }
 
+  test("Trailing whitspaces should be removed") {
+    val song = Song(Some(" Title "), Some(" Artist "), Some(" Album "), Some(" 2011 "))
+    testPerfectMp3Strategy(song)
+  }
+
   private val targetDirectory = "Target Directory"
   private val strategy = new SongFileOrganizingStrategy(targetDirectory)
 

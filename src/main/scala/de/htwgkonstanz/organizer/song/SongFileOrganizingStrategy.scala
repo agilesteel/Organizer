@@ -10,7 +10,7 @@ class SongFileOrganizingStrategy(val targetDirectory: String) extends (SongFile 
       album => optionalAlbum,
       year => optionalYear
     }
-    
+
     val File(_, fileName, fileExtension) = songFile.filePath
 
     def generateFilePath(locationParts: Seq[String], name: String) = File(locationParts, name, fileExtension)
@@ -33,16 +33,20 @@ class SongFileOrganizingStrategy(val targetDirectory: String) extends (SongFile 
   }
 
   private def handleInvalidCharacters(property: String) = {
+    val propertyWithoutTrailingWhiteSpaces = removeTrailingWhiteSpaces(property)
     val pattern = "[" + invalidCharacters + "]+"
-    def propertyNeitherStartsNorEndsWith(c: String) = !property.startsWith(c) && !property.endsWith(c)
-
-    val propertyWithCheckedStartAndEnd =
-      if (invalidCharacters map { _.toString } forall propertyNeitherStartsNorEndsWith)
-        property
-      else
-        property.replaceAll(pattern, "")
-
+    val propertyWithCheckedStartAndEnd = checkStartAndEndConstraints(propertyWithoutTrailingWhiteSpaces, pattern)
     propertyWithCheckedStartAndEnd.replaceAll(pattern, " ")
+  }
+
+  private def removeTrailingWhiteSpaces(property: String) = property.stripPrefix(" ").stripSuffix(" ")
+ 
+  private def checkStartAndEndConstraints(property: String, pattern: String) = {
+    def propertyNeitherStartsNorEndsWith(c: String) = !property.startsWith(c) && !property.endsWith(c)
+    if (invalidCharacters map { _.toString } forall propertyNeitherStartsNorEndsWith)
+      property
+    else
+      property.replaceAll(pattern, "")
   }
 
   val unassignedDirectoryParts: List[String] = List(targetDirectory, "Unassigned")
