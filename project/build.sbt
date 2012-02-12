@@ -1,5 +1,3 @@
 resolvers += Classpaths.typesafeResolver
 
-addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse" % "latest.release")
-
-libraryDependencies <+= sbtVersion(v => "com.github.siasia" %% "xsbt-web-plugin" % (v+"-0.2.9"))
+addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "latest.release")
