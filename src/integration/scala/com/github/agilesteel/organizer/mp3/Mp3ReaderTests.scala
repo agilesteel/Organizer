@@ -1,7 +1,6 @@
-package com.github.agilesteel.organizer.integration.mp3
+package com.github.agilesteel.organizer.mp3
 
 import com.github.agilesteel.organizer._
-import integration.IntegrationTestConfiguration
 import mp3._
 import song._
 

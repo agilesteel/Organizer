@@ -1,6 +1,5 @@
 package com.github.agilesteel.organizer
 
-import com.github.agilesteel.organizer._
 import song._
 import io._
 import FileSystem._

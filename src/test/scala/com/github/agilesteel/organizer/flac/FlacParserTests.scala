@@ -1,8 +1,7 @@
-package com.github.agilesteel.organizer.unit.flac
+package com.github.agilesteel.organizer.flac
 
 import com.github.agilesteel.organizer.io.FileSystem._
 import com.github.agilesteel.organizer._
-import unit.UnitTestConfiguration
 import song._
 import flac._
 

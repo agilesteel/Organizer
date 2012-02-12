@@ -1,7 +1,6 @@
-package com.github.agilesteel.organizer.integration.flac
+package com.github.agilesteel.organizer.flac
 
 import com.github.agilesteel.organizer._
-import integration.IntegrationTestConfiguration
 import flac._
 import song._
 

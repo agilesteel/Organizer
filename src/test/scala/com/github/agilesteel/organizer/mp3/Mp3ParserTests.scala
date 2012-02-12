@@ -1,7 +1,6 @@
-package com.github.agilesteel.organizer.unit.mp3
+package com.github.agilesteel.organizer.mp3
 
 import com.github.agilesteel.organizer._
-import unit.UnitTestConfiguration
 import io._
 import song._
 import mp3._

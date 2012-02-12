@@ -1,7 +1,5 @@
-package com.github.agilesteel.organizer.acceptance.song
+package com.github.agilesteel.organizer.song
 
-import com.github.agilesteel.organizer.acceptance._
-import com.github.agilesteel.organizer.song._
 import com.github.agilesteel.organizer._
 import io._
 import FileSystem._

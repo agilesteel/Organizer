@@ -1,4 +1,4 @@
-package com.github.agilesteel.organizer.unit
+package com.github.agilesteel.organizer
 
 import org.scalatest._
 import org.scalatest.matchers._

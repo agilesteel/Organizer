@@ -1,7 +1,5 @@
-package com.github.agilesteel.organizer.integration.io
+package com.github.agilesteel.organizer.io
 
-import com.github.agilesteel.organizer.integration._
-import com.github.agilesteel.organizer.io._
 import com.github.agilesteel.organizer._
 import FileSystem._
 import KnownFileTypes._

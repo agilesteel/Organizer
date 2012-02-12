@@ -1,8 +1,6 @@
-package com.github.agilesteel.organizer.unit.song
+package com.github.agilesteel.organizer.song
 
 import com.github.agilesteel.organizer._
-import unit.UnitTestConfiguration
-import com.github.agilesteel.organizer.song._
 
 class SongTests extends UnitTestConfiguration {
   test("All song members should be initially set to None") {

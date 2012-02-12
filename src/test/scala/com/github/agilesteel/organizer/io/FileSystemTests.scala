@@ -1,9 +1,7 @@
-package com.github.agilesteel.organizer.unit.io
+package com.github.agilesteel.organizer.io
 
-import com.github.agilesteel.organizer.io._
-import com.github.agilesteel.organizer.io.FileSystem._
 import com.github.agilesteel.organizer._
-import unit.UnitTestConfiguration
+import FileSystem._
 
 class FileSystemTests extends UnitTestConfiguration {
   test("Perfect file path should be recognized") {

@@ -1,8 +1,6 @@
-package com.github.agilesteel.organizer.unit.song
+package com.github.agilesteel.organizer.song
 
-import com.github.agilesteel.organizer.song._
 import com.github.agilesteel.organizer._
-import unit.UnitTestConfiguration
 import io._
 import FileSystem._
 
