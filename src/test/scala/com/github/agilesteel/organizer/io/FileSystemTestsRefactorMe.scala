@@ -3,7 +3,7 @@ package com.github.agilesteel.organizer.io
 import com.github.agilesteel.organizer._
 import FileSystem._
 
-class FileSystemTests extends UnitTestConfiguration {
+class FileSystemTestsRefactorMe extends UnitTestConfiguration {
   test("Perfect file path should be recognized") {
     val filePath = "location" + separator + "name.extension"
     assertDefaults(filePath)

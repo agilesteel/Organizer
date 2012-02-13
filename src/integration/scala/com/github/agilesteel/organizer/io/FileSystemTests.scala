@@ -65,7 +65,7 @@ class FileSystemTests extends IntegrationTestConfiguration {
 
   private val system = FileSystem
   private def thisFile = {
-    val locationPartsOfThisFile = "src" :: "test" :: "scala" :: this.getClass.getName.split("""\.""").dropRight(1).toList
+    val locationPartsOfThisFile = "src" :: "integration" :: "scala" :: this.getClass.getName.split("""\.""").dropRight(1).toList
     val nameOfThisFile = this.getClass.getSimpleName
     val extensionOfThisFile = "scala"
     File(locationPartsOfThisFile, nameOfThisFile, extensionOfThisFile)
