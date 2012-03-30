@@ -8,8 +8,7 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-	"org.scalatest" %% "scalatest" % "latest.release" % "test",
-	"org.jaudiotagger" % "jaudiotagger" % "latest.release" % "compile",
+	"org.jaudiotagger" % "jaudiotagger" % "latest.release",
 	"org.scalaz" %% "scalaz-core" % "latest.release"
 )
 
@@ -17,9 +16,3 @@ scalacOptions ++= Seq(
 	"-unchecked",
 	 "-deprecation"
 )
-
-testOptions in Test ++= Seq(
-	Tests.Argument(TestFrameworks.ScalaTest, "-oS")
-)
-
-parallelExecution in Test := true
