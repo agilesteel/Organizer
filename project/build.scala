@@ -14,12 +14,37 @@ object OrganizerBuild extends Build {
       .settings( libraryDependencies += scalaTest)
 
   lazy val AcceptanceTest = config("acceptance") extend(Test)
+
   lazy val IntegrationTestOwn = config("integration") extend(Test)
+
   lazy val scalaTest = "org.scalatest" %% "scalatest" % "latest.release"
+
   lazy val organizerSettings = Project.defaultSettings ++ Seq(
-     EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource,
-     EclipseKeys.configurations := Set(Compile, Test, AcceptanceTest, IntegrationTestOwn),
-     testOptions in Test ++= Seq(
-	  Tests.Argument(TestFrameworks.ScalaTest, "-oS")
-     ))
+	name := "Organizer",
+
+	version := "1.1",
+
+	resolvers ++= Seq(
+		"jaudiotagger repository" at "http://download.java.net/maven/2/org/jaudiotagger",
+		"Java.net Maven2 Repository" at "http://download.java.net/maven/2/"
+	),
+
+	libraryDependencies ++= Seq(
+		"org.jaudiotagger" % "jaudiotagger" % "latest.release",
+		"org.scalaz" %% "scalaz-core" % "latest.release"
+	),
+
+	scalacOptions ++= Seq(
+		"-unchecked",
+	 	"-deprecation"
+	),
+
+	testOptions in Test ++= Seq(
+	  	Tests.Argument(TestFrameworks.ScalaTest, "-oS")
+     	),
+
+     	EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource,
+    	
+	EclipseKeys.configurations := Set(Compile, Test, AcceptanceTest, IntegrationTestOwn)
+   )
 }
