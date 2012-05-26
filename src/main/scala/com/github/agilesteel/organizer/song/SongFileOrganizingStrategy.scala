@@ -40,7 +40,7 @@ class SongFileOrganizingStrategy(val targetDirectory: String) extends (SongFile 
   }
 
   private def removeTrailingWhiteSpaces(property: String) = property.stripPrefix(" ").stripSuffix(" ")
- 
+
   private def checkStartAndEndConstraints(property: String, pattern: String) = {
     def propertyNeitherStartsNorEndsWith(c: String) = !property.startsWith(c) && !property.endsWith(c)
     if (invalidCharacters map { _.toString } forall propertyNeitherStartsNorEndsWith)

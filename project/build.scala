@@ -24,6 +24,8 @@ object OrganizerBuild extends Build {
 
 	version := "1.1",
 
+	scalaVersion := "2.9.2",
+
 	resolvers ++= Seq(
 		"jaudiotagger repository" at "http://download.java.net/maven/2/org/jaudiotagger",
 		"Java.net Maven2 Repository" at "http://download.java.net/maven/2/"
@@ -40,7 +42,7 @@ object OrganizerBuild extends Build {
 	),
 
 	testOptions in Test ++= Seq(
-	  	Tests.Argument(TestFrameworks.ScalaTest, "-oS")
+	  	Tests.Argument(TestFrameworks.ScalaTest, "stdout")
      	),
 
      	EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource,
