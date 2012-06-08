@@ -48,10 +48,10 @@ class OrganizerControllerTests extends com.github.agilesteel.organizer.UnitTestC
   }
 
   test("""Parse should yield Right()""") {
-    val controller = new OrganizerController(new OrganizerModel).setSource(path)
+    val controller = new OrganizerController(new OrganizerModel).setSource("organizer-core/" + path)
     controller.parse match {
       case Right(songs) => {
-        songs.toSet should be === (songFiles map { _.toString } toSet)
+        songs.toSet should be === (songFiles(List("organizer-core", path)) map { _.toString } toSet)
       }
     }
   }
@@ -73,9 +73,9 @@ class OrganizerControllerTests extends com.github.agilesteel.organizer.UnitTestC
   }
 
   private def testLeftIfControllsAreDisabled(operationName: String)(eitherOperation: => Either[String, _]) {
-    test(operationName + """ should yield Left("Please tell me where your song are")""") {
+    test(operationName + """ should yield Left("Please tell me where your songs are")""") {
       eitherOperation match {
-        case Left(error) => error should be("Please tell me where your song are")
+        case Left(error) => error should be("Please tell me where your songs are")
       }
     }
   }
