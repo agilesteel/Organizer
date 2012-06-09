@@ -1,0 +1,3 @@
+package com.github.agilesteel.organizer
+
+trait AcceptanceTestConfiguration extends SpecsConfiguration
