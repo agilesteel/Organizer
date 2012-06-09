@@ -6,7 +6,7 @@ import song._
 
 class FlacReaderTests extends IntegrationTestConfiguration {
   feature("Flac Reader should read a flac file and produce a flac tag") {
-    val path = """src/test/resources/dummy.flac"""
+    val path = TestFiles.path + "/dummy.flac"
     scenario("read is invoked on " + path) {
       given("a flac reader")
       val reader = new FlacReader

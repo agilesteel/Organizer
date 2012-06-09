@@ -1,9 +1,9 @@
 package com.github.agilesteel.organizer.delivery
 
-import com.github.agilesteel.organizer.song.SongFile
-import com.github.agilesteel.organizer.TestFiles._
+import com.github.agilesteel.organizer._
+import song.SongFile
 
-class OrganizerControllerTests extends com.github.agilesteel.organizer.UnitTestConfiguration {
+class OrganizerControllerTests extends UnitTestConfiguration {
   class FakeModel extends Model {
     def parse(source: String, target: String): Seq[SongFile] = Seq[SongFile]()
     def preview(source: String, target: String) = Map[String, String]()
@@ -48,10 +48,11 @@ class OrganizerControllerTests extends com.github.agilesteel.organizer.UnitTestC
   }
 
   test("""Parse should yield Right()""") {
-    val controller = new OrganizerController(new OrganizerModel).setSource("organizer-core/" + path)
+    import TestFiles._
+    val controller = new OrganizerController(new OrganizerModel).setSource(path)
     controller.parse match {
       case Right(songs) => {
-        songs.toSet should be === (songFiles(List("organizer-core", path)) map { _.toString } toSet)
+        songs.toSet should be === (songFiles map { _.toString } toSet)
       }
     }
   }

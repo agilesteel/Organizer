@@ -20,7 +20,10 @@ object OrganizerBuild extends Build {
 		base = file("."),
 		settings = Project.defaultSettings,
 		aggregate = Seq(core, delivery)
-	)
+	).configs( AcceptanceTest, IntegrationTestOwn )
+      	.settings( inConfig(AcceptanceTest)(Defaults.testSettings) : _*)
+      	.settings( inConfig(IntegrationTestOwn)(Defaults.testSettings) : _*)
+      	.settings( libraryDependencies += scalaTest)
 
 	lazy val core = Project(
 		id = "organizer-core",
@@ -30,7 +33,6 @@ object OrganizerBuild extends Build {
       	.settings( inConfig(AcceptanceTest)(Defaults.testSettings) : _*)
       	.settings( inConfig(IntegrationTestOwn)(Defaults.testSettings) : _*)
       	.settings( libraryDependencies += scalaTest)
-
 
   	lazy val AcceptanceTest = config("acceptance") extend(Test)
 

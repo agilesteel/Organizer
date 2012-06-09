@@ -6,6 +6,14 @@ import KnownFileTypes._
 import TestFiles._
 
 class FileSystemTests extends IntegrationTestConfiguration {
+  private val system = FileSystem
+  private def thisFile = {
+    val locationPartsOfThisFile = TestFiles.locationParts.head :: "src" :: "integration" :: "scala" :: this.getClass.getName.split("""\.""").dropRight(1).toList
+    val nameOfThisFile = this.getClass.getSimpleName
+    val extensionOfThisFile = "scala"
+    File(locationPartsOfThisFile, nameOfThisFile, extensionOfThisFile)
+  }
+
   feature("FileSystem should be aware of file existence") {
     scenario("exists is invoked on an existent file") {
       when("exists is invoked on " + thisFile)
@@ -53,21 +61,12 @@ class FileSystemTests extends IntegrationTestConfiguration {
 
   feature("Traversing a directory") {
     scenario("traverse is invoked on an existent source directory") {
-      when("""traverse is invoked on src\test\resources""")
-      val path = """src/test/resources"""
+      when("""traverse is invoked on """ + path)
       val actualFiles = system.traverse(path)(MP3, FLAC)
 
       then("the result should be a list of files containing" + prettyPrint(files))
       val expectedFiles = files
       actualFiles === expectedFiles
     }
-  }
-
-  private val system = FileSystem
-  private def thisFile = {
-    val locationPartsOfThisFile = "src" :: "integration" :: "scala" :: this.getClass.getName.split("""\.""").dropRight(1).toList
-    val nameOfThisFile = this.getClass.getSimpleName
-    val extensionOfThisFile = "scala"
-    File(locationPartsOfThisFile, nameOfThisFile, extensionOfThisFile)
   }
 }
