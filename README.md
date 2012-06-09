@@ -1,7 +1,7 @@
 [Java 7]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
-[SBT 0.11]: https://github.com/harrah/xsbt/wiki
+[SBT 0.13]: https://github.com/harrah/xsbt/wiki
 
-# Organizer 1.0
+# Organizer
 
 This tool organizes the files on your system. 
 
@@ -15,7 +15,7 @@ This tool organizes the files on your system.
 ### Requirements 
 
 * [Java 7]
-* [SBT 0.11] or greater
+* [SBT 0.13] or greater
 * Internet connection (in order for SBT to be able to download the necessary dependencies)
 
 ### Build
@@ -29,13 +29,10 @@ This tool organizes the files on your system.
 
 		$ sbt
 
-3. Compile/Test/Run*:
+3. Compile/Test/Run:
 
 		$ compile
-		$ test
+		$ test			// unit tests
+		$ integration:test	// integration tests
+		$ acceptance:test	// acceptance tests
 		$ run
-
-\* Don't forget to start/stop jetty if you want to run the web version.
-
-	$ container:start
-	$ container:stop

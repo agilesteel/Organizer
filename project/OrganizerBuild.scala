@@ -6,7 +6,6 @@ import com.typesafe.sbteclipse.plugin.EclipsePlugin._
 import EclipseKeys._
 
 object OrganizerBuild extends Build {
-
 	lazy val buildSettings = Seq(
     		organization := "com.github.agilesteel",
     		version := "1.0.1",
@@ -23,58 +22,54 @@ object OrganizerBuild extends Build {
 	).configs( AcceptanceTest, IntegrationTestOwn )
       	.settings( inConfig(AcceptanceTest)(Defaults.testSettings) : _*)
       	.settings( inConfig(IntegrationTestOwn)(Defaults.testSettings) : _*)
-      	.settings( libraryDependencies += scalaTest)
 
 	lazy val core = Project(
 		id = "organizer-core",
 		base = file("organizer-core"),
-		settings = Project.defaultSettings ++ coreSettings
+		settings = Project.defaultSettings ++ coreSettings ++ pureScalaProjectSettings
 	).configs( AcceptanceTest, IntegrationTestOwn )
       	.settings( inConfig(AcceptanceTest)(Defaults.testSettings) : _*)
       	.settings( inConfig(IntegrationTestOwn)(Defaults.testSettings) : _*)
-      	.settings( libraryDependencies += scalaTest)
+
+	lazy val delivery = Project(
+		id = "organizer-delivery",
+		base = file("organizer-delivery"),
+		settings = Project.defaultSettings ++ deliverySettings ++ pureScalaProjectSettings
+	) dependsOn core % "test->test;compile->compile"
 
   	lazy val AcceptanceTest = config("acceptance") extend(Test)
 
   	lazy val IntegrationTestOwn = config("integration") extend(Test)
 
-  	lazy val scalaTest = "org.scalatest" %% "scalatest" % "latest.release"
+	lazy val pureScalaProjectSettings = Seq(
+		unmanagedSourceDirectories in Compile <<= (scalaSource in Compile)(Seq(_)),
 
-	lazy val delivery = Project(
-		id = "organizer-delivery",
-		base = file("organizer-delivery"),
-		settings = Project.defaultSettings ++ deliverySettings
-	) dependsOn core % "test->test;compile->compile"
+		unmanagedSourceDirectories in Test <<= (scalaSource in Test)(Seq(_))
+	)
 
   	lazy val coreSettings = Seq(
-		resolvers ++= Seq(
-			"jaudiotagger repository" at "http://download.java.net/maven/2/org/jaudiotagger",
-			"Java.net Maven2 Repository" at "http://download.java.net/maven/2/"
-		),
+		resolvers += Resolver.jAudioTagger,
 
-		libraryDependencies ++= Seq(
-			"org.jaudiotagger" % "jaudiotagger" % "latest.release",
-			"org.scalatest" %% "scalatest" % "latest.release" % "test"
-		),
+		libraryDependencies ++= Seq(Dependency.jAudioTagger, Dependency.scalaTest),
 
-		scalacOptions ++= Seq(
-			"-unchecked",
-	 		"-deprecation"
-		),
+		scalacOptions ++= Seq("-unchecked", "-deprecation"),
 
-		testOptions in Test ++= Seq(
-	  		Tests.Argument(TestFrameworks.ScalaTest, "stdout")
-     		),
+		testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "stdout"),
 
-     		EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource,
-    	
 		EclipseKeys.configurations := Set(Compile, Test, AcceptanceTest, IntegrationTestOwn)
    	)
 
 	lazy val deliverySettings = Seq(
-		libraryDependencies ++= Seq(
-			"org.scala-lang" % "scala-swing" % "2.9.2",
-			"org.scalatest" %% "scalatest" % "latest.release" % "test"
-		)
+		libraryDependencies ++= Seq(Dependency.scalaSwing, Dependency.scalaTest)
 	)
+}
+
+object Resolver {
+	lazy val jAudioTagger = "java.net/.../jaudiotagger"	at	"http://download.java.net/maven/2/org/jaudiotagger"
+}
+
+object Dependency {
+	lazy val jAudioTagger =	"org.jaudiotagger"	%	"jaudiotagger"		%	"2.0.1"
+	lazy val scalaSwing =	"org.scala-lang"	%	"scala-swing"		%	"2.9.2"
+	lazy val scalaTest =	"org.scalatest"		%	"scalatest_2.9.2"	%	"latest.release"	
 }
