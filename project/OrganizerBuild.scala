@@ -17,7 +17,7 @@ object OrganizerBuild extends Build {
 	lazy val organizer = Project(
 		id = "organizer",
 		base = file("."),
-		settings = Project.defaultSettings,
+		settings = Project.defaultSettings ++ Seq(aggregate in run := true),
 		aggregate = Seq(core, delivery)
 	).configs( AcceptanceTest, IntegrationTestOwn )
       	.settings( inConfig(AcceptanceTest)(Defaults.testSettings) : _*)
